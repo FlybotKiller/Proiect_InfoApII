@@ -22,7 +22,8 @@ enum GameState {
 };
 //declared an enumeration "GameState" with two states: RUNNING and PAUSED
 
-GameState gameState = IDLE;  //initialized a variable "gameState" with the default value "RUNNING"
+GameState gameState = IDLE;  //initialized a variable "gameState" with the default value "IDLE"
+
 
 const unsigned long PADDLE_RATE = 40;                          //defined a constant for paddle update rate, determines how often the paddle's position is updated in the game loop (lower value means frequent updates resulting in higher speed)
 const unsigned long BALL_RATE = 0;                             //defined a constant for ball update rate, determines how often the ball's position is updated in the game loop (lower value means frequent updates resulting in higher speed)
@@ -44,7 +45,7 @@ void drawPaused();
 void startGame();
 void startSound();
 void confirmSound();
-//function prototypes for drawing functions, without these prototypes, if a function is called
+//function prototypes for different functions, without these prototypes, if a function is called
 //before its implementation is seen by the compiler it will result in a compilation error
 
 uint8_t ball_x = 64, ball_y = 32;        //declared initial x and y ball coordinates
@@ -115,15 +116,15 @@ void loop() {
     uint8_t new_x = ball_x + ball_dir_x;
     uint8_t new_y = ball_y + ball_dir_y;
 
-    // Check if the ball hits the vertical walls
+    // Check if the ball hits the horizontal walls
     if (new_x - 1 <= 0 || new_x + 1 >= 127) {
-      if (new_x - 1 <= 0)  //if the ball hits the vertical left wall
+      if (new_x - 1 <= 0)  //if the ball hits the horizontal left wall
       {
         player1Score += 1;          //increment player 1 score by 1
         display.fillScreen(BLACK);  //clear the display by making it black
         soundPoint();               //play a scoring sound
         resetBall = true;           //set the resetBall flag to true
-      } else if (new_x + 1 >= 126)  //if the ball hits the vertical wall on the right
+      } else if (new_x + 1 >= 126)  //if the ball hits the horizontal wall on the right
       {
         player2Score += 1;          //increment player 2 score by 1
         display.fillScreen(BLACK);  //clear the display by making it black
@@ -135,7 +136,7 @@ void loop() {
       new_x += ball_dir_x + ball_dir_x;
     }
 
-    // Check if the ball hits the horizontal walls.
+    // Check if the ball hits the vertical walls.
     if (new_y - 1 <= 0 || new_y + 1 >= 63)  //if the ball hits the top wall(0) or the bottom wall(63)
     {
       soundBounce();  //play a bouncing sound
